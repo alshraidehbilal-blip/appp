@@ -1,61 +1,58 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-    :root {
-        --background: 210 40% 98%;
-        --foreground: 215 28% 17%;
-        --card: 0 0% 100%;
-        --card-foreground: 215 28% 17%;
-        --popover: 0 0% 100%;
-        --popover-foreground: 215 28% 17%;
-        --primary: 173 80% 27%;
-        --primary-foreground: 0 0% 100%;
-        --secondary: 215 20% 35%;
-        --secondary-foreground: 0 0% 100%;
-        --muted: 215 28% 95%;
-        --muted-foreground: 215 20% 50%;
-        --accent: 38 92% 50%;
-        --accent-foreground: 0 0% 100%;
-        --destructive: 0 84% 60%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 220 13% 91%;
-        --input: 220 13% 91%;
-        --ring: 173 80% 27%;
-        --radius: 0.5rem;
-    }
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 173 80% 40%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 173 80% 40%;
+    --radius: 0.5rem;
+  }
 }
 
-@layer base {
-    * {
-        @apply border-border;
-    }
-    body {
-        @apply bg-slate-50 text-foreground;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-    h1, h2, h3, h4, h5, h6 {
-        font-family: 'Manrope', sans-serif;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@layer components {
-    .btn-primary {
-        @apply bg-teal-700 hover:bg-teal-800 text-white shadow-sm hover:shadow-md transition-all active:scale-95 h-10 px-4 py-2 rounded-lg font-medium;
-    }
-    
-    .btn-secondary {
-        @apply bg-slate-100 text-slate-900 hover:bg-slate-200 transition-all active:scale-95 h-10 px-4 py-2 rounded-lg font-medium;
-    }
-    
-    .card {
-        @apply rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow duration-300;
-    }
-    
-    .input-field {
-        @apply h-10 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all;
-    }
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #F8FAFC;
+  color: #1E293B;
+  direction: ltr;
+}
+
+body[dir="rtl"] {
+  direction: rtl;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Manrope', sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
 }
