@@ -1,53 +1,157 @@
-import { useEffect } from "react";
-import "@/App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { Toaster } from 'sonner';
+import '@/App.css';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+// Pages
+import Login from './pages/Login';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminPatients from './pages/admin/AdminPatients';
+import AdminAppointments from './pages/admin/AdminAppointments';
+import AdminUsers from './pages/admin/AdminUsers';
+import AdminProcedures from './pages/admin/AdminProcedures';
+import AdminPayments from './pages/admin/AdminPayments';
+import PatientDetail from './pages/shared/PatientDetail';
 
-const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
-    }
-  };
+// Doctor pages
+import DoctorDashboard from './pages/doctor/DoctorDashboard';
+import DoctorCalendar from './pages/doctor/DoctorCalendar';
+import DoctorPatients from './pages/doctor/DoctorPatients';
 
-  useEffect(() => {
-    helloWorldApi();
-  }, []);
+// Receptionist pages
+import ReceptionistDashboard from './pages/receptionist/ReceptionistDashboard';
+import ReceptionistCalendar from './pages/receptionist/ReceptionistCalendar';
+import ReceptionistPatients from './pages/receptionist/ReceptionistPatients';
+import ReceptionistPayments from './pages/receptionist/ReceptionistPayments';
 
-  return (
-    <div>
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
-  );
+const RoleRedirect = () => {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-700"></div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/" replace />;
+  }
+
+  switch (user.role) {
+    case 'admin':
+      return <Navigate to="/admin" replace />;
+    case 'doctor':
+      return <Navigate to="/doctor" replace />;
+    case 'receptionist':
+      return <Navigate to="/receptionist" replace />;
+    default:
+      return <Navigate to="/" replace />;
+  }
 };
 
 function App() {
   return (
-    <div className="App">
+    <AuthProvider>
       <BrowserRouter>
+        <Toaster position="top-right" richColors />
         <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
+          <Route path="/" element={<Login />} />
+          
+          {/* Admin Routes */}
+          <Route path="/admin" element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/patients" element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <AdminPatients />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/patients/:id" element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <PatientDetail />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/appointments" element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <AdminAppointments />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/users" element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <AdminUsers />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/procedures" element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <AdminProcedures />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/payments" element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <AdminPayments />
+            </ProtectedRoute>
+          } />
+
+          {/* Doctor Routes */}
+          <Route path="/doctor" element={
+            <ProtectedRoute allowedRoles={['doctor']}>
+              <DoctorDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/doctor/calendar" element={
+            <ProtectedRoute allowedRoles={['doctor']}>
+              <DoctorCalendar />
+            </ProtectedRoute>
+          } />
+          <Route path="/doctor/patients" element={
+            <ProtectedRoute allowedRoles={['doctor']}>
+              <DoctorPatients />
+            </ProtectedRoute>
+          } />
+          <Route path="/doctor/patients/:id" element={
+            <ProtectedRoute allowedRoles={['doctor']}>
+              <PatientDetail />
+            </ProtectedRoute>
+          } />
+
+          {/* Receptionist Routes */}
+          <Route path="/receptionist" element={
+            <ProtectedRoute allowedRoles={['receptionist']}>
+              <ReceptionistDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/receptionist/calendar" element={
+            <ProtectedRoute allowedRoles={['receptionist']}>
+              <ReceptionistCalendar />
+            </ProtectedRoute>
+          } />
+          <Route path="/receptionist/patients" element={
+            <ProtectedRoute allowedRoles={['receptionist']}>
+              <ReceptionistPatients />
+            </ProtectedRoute>
+          } />
+          <Route path="/receptionist/patients/:id" element={
+            <ProtectedRoute allowedRoles={['receptionist']}>
+              <PatientDetail />
+            </ProtectedRoute>
+          } />
+          <Route path="/receptionist/payments" element={
+            <ProtectedRoute allowedRoles={['receptionist']}>
+              <ReceptionistPayments />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/dashboard" element={<RoleRedirect />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
-    </div>
+    </AuthProvider>
   );
 }
 
