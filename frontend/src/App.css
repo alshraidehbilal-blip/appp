@@ -1,33 +1,38 @@
 .App {
   min-height: 100vh;
-}
-
-.App-header {
   background-color: #F8FAFC;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: #1e293b;
 }
 
-.App-link {
-  color: #0F766E;
+.teal-gradient {
+  background: linear-gradient(135deg, #0F766E 0%, #14B8A6 100%);
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.card-hover {
+  transition: all 0.3s ease;
 }
 
-.animate-fadeIn {
-  animation: fadeIn 0.3s ease-out;
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(15, 118, 110, 0.1);
+}
+
+.btn-teal {
+  background-color: #0F766E;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.btn-teal:hover {
+  background-color: #115E59;
+  transform: translateY(-1px);
+}
+
+.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+.ltr {
+  direction: ltr;
+  text-align: left;
 }
