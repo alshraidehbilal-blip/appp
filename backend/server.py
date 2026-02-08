@@ -324,11 +324,18 @@ async def get_current_user(request: Request):
         
         return dict(user)
 
- def require_role(required_roles: List[str]):
+from typing import List
+from fastapi import Depends, HTTPException
+
+def require_role(required_roles: List[str]):
     async def role_checker(current_user: dict = Depends(get_current_user)):
-        if current_user["role"] not in required_roles:
-            raise HTTPException(status_code=403, detail="Insufficient permissions")
+        if current_user.get("role") not in required_roles:
+            raise HTTPException(
+                status_code=403,
+                detail="Insufficient permissions"
+            )
         return current_user
+
     return role_checker
 
 # Auth routes
